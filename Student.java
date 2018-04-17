@@ -1,19 +1,19 @@
-import java.io.File;
+/*import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.Scanner;*/
 
 public class Student extends Person{
+
 	
-	int numberOfIndex = 0;
 	
 	public Student(String login, String password) {
 		super();
 		setLogin(login);
 		setPassword(password);
-		setPermission("student");
+		setNameDataTable("students");
 		
 		
 	}
@@ -139,17 +139,53 @@ public class Student extends Person{
 	}
 	*/
 
+	/**
+	 * Metoda zwraca kolejno lancuch znakow String:
+	 * -Access jesli dane login i haslo sa poprawne
+	 * -NotExist- jesli nie ma osoby o danum loginie lub haslo do tej osoby jest zle
+	 */
 	
-	
-	
-	
-	
-	public int getNumberOfIndex() {
-		return numberOfIndex;
-	}
+	public String loginPerson() {
 
-	public void setNumberOfIndex(int numberOfIndex) {
-		this.numberOfIndex = numberOfIndex;
+		String answer  = "";
+		String query   = "SELECT haslo FROM students WHERE login = " + "'" + getLogin() + "'";
+		
+		String basePassToThisLogin = getBase().sendQuery(query);
+		
+		
+		if(getPassword().equals(basePassToThisLogin)) {
+			answer = "Access";
+			
+			query = "SELECT `studentId` 	FROM `students` WHERE login = " + "'" + getLogin() + "'";
+			setPersonId(Integer.parseInt(getBase().sendQuery(query)));
+			
+			query = "SELECT `permissionId` 	FROM `students` WHERE login = " + "'" + getLogin() + "'";
+			setPermissionId(getBase().sendQuery(query));
+			
+			query = "SELECT `index` 		FROM `students` WHERE login = " + "'" + getLogin() + "'";
+			setIndex(getBase().sendQuery(query));
+			
+			
+			
+			setIsLogged(true);
+		}
+		else answer = "NotExist";
+		
+		return answer;
 	}
+	
+	public String saveDataPerson() {
+
+			String query = "INSERT INTO `" + getNameDataTable() + "` (`login`, `haslo`, `permissionId`, `index`) " + 
+							"VALUES "+ "('" + getLogin() + "', '" + getPassword() + "', '" + getPermissionId() + "', '" + getIndex() + "'); ";
+			
+			
+			String answer = getBase().sendUpdate(query);
+
+		return answer;
+	}
+	
+	
+	
 
 }
