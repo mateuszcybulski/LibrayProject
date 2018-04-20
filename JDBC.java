@@ -1,12 +1,12 @@
-
 import java.sql.*;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.ArrayList;
  
 /**
  * Class to conect with data base - MySql
- * @author MakarenaCosablena
+ * @author Mateusz Cybulski
  *
  */
 public class JDBC {
@@ -32,12 +32,7 @@ public class JDBC {
     		polaczenieURL = "jdbc:mysql://127.0.0.1/" + dataBase + "?user=" + user;
     		
     	}
-        
-        
-/*
-        public static void main(String[] args) {
-        	sql();
-        }*/
+       
         
         /**
          * 
@@ -51,25 +46,14 @@ public class JDBC {
             Connection conn = null;
            
             try {
-
-                    //Ustawiamy dane dotycz¹ce pod³¹czenia
                     conn = DriverManager.getConnection(polaczenieURL);
                    
-                    //Ustawiamy sterownik MySQL
                     Class.forName("com.mysql.jdbc.Driver");
                    
                     
-                   // PreparedStatement ps = conn.prepareStatement(query);
-                   // ps.executeUpdate();
-                    
-                    
-                    //Uruchamiamy zapytanie do bazy danych
                     Statement stmt = conn.createStatement();
                     ResultSet rs = stmt.executeQuery(query);
    
-                    //while (rs.next()) {
-                   //         wyswietlDaneZBazy(rs);
-                   // }
                     
                     try{
                     	while(rs.next() ) {
@@ -80,19 +64,16 @@ public class JDBC {
                         }
    
                     conn.close();
-                    
-                	///answer += "Data are updated";
+
             }
-            //Wyrzuæ wyj¹tki jê¿eli nast¹pi¹ b³êdy z pod³¹czeniem do bazy danych lub blêdy zapytania o dane
             catch(ClassNotFoundException wyjatek) {
-                    //System.out.println("Problem ze sterownikiem");
+
                     answer += "Problem ze sterownikiem ";
                 	
             }
 
             catch(SQLException wyjatek) {
                 //e.printStackTrace();
-                //System.out.println("Problem z logowaniem\nProsze sprawdzic:\n nazwê u¿ytkownika, has³o, nazwê bazy danych lub adres IP serwera");
                 //System.out.println("SQLException: " + wyjatek.getMessage());
                 //System.out.println("SQLState: " + wyjatek.getSQLState());
                 //System.out.println("VendorError: " + wyjatek.getErrorCode());
@@ -104,6 +85,62 @@ public class JDBC {
         	return answer;
         }
         
+      
+        /**
+         * 
+         * @param query, howMuchTuple
+         * @return SELECT- data is update to ArrayList
+         */
+        public ArrayList<String> getRsQuery(String query, int howMuchTuple) {
+        	ArrayList<String> odp = new ArrayList<String>();
+        	
+        	
+        	answer = "";
+        	ResultSet rs = null;
+            
+            Connection conn = null;
+           
+            try {
+
+                    conn = DriverManager.getConnection(polaczenieURL);
+                   
+                    Class.forName("com.mysql.jdbc.Driver");
+                   
+                    Statement stmt = conn.createStatement();
+                    rs = stmt.executeQuery(query);
+   
+                    try{
+                    	while(rs.next() ) {
+                    			for(int i=1; i < howMuchTuple+1 ; i++) {
+                            		odp.add(rs.getString(i));
+                            		
+                    			}
+                    	}
+                        }catch(SQLException e) {
+                                e.printStackTrace();
+                        }
+   
+                    conn.close();
+            }
+
+            catch(ClassNotFoundException wyjatek) {
+
+                    answer += "Problem ze sterownikiem ";
+                	
+            }
+
+            catch(SQLException e) {
+                //e.printStackTrace();
+                System.out.println("SQLException: " + e.getMessage());
+                System.out.println("SQLState: " + e.getSQLState());
+                System.out.println("VendorError: " + e.getErrorCode());
+                
+                answer += "SQLException: " + e.getMessage() + ", SQLState: " + e.getSQLState() + ", VendorError: " + e.getErrorCode();
+            }
+
+            
+        	return odp;
+        }
         
         
         /**
@@ -119,44 +156,31 @@ public class JDBC {
            
             try {
 
-                    //Ustawiamy dane dotycz¹ce pod³¹czenia
                     conn = DriverManager.getConnection(polaczenieURL);
                    
-                    //Ustawiamy sterownik MySQL
                     Class.forName("com.mysql.jdbc.Driver");
                    
                     
                     PreparedStatement ps = conn.prepareStatement(query);
                     ps.executeUpdate();
                     
-                    /*
-                    //Uruchamiamy zapytanie do bazy danych
-                    Statement stmt = conn.createStatement();
-                    ResultSet rs = stmt.executeQuery(query);
-   
-                    while (rs.next()) {
-                            wyswietlDaneZBazy(rs);
-                    }*/
-   
                     conn.close();
                     
                 	answer = "Data are updated";
             }
-            //Wyrzuæ wyj¹tki jê¿eli nast¹pi¹ b³êdy z pod³¹czeniem do bazy danych lub blêdy zapytania o dane
             catch(ClassNotFoundException wyjatek) {
                     System.out.println("Problem ze sterownikiem");
                     answer += "Problem ze sterownikiem ";
                 	
             }
 
-            catch(SQLException wyjatek) {
-                //e.printStackTrace();
-                //System.out.println("Problem z logowaniem\nProsze sprawdzic:\n nazwê u¿ytkownika, has³o, nazwê bazy danych lub adres IP serwera");
+            catch(SQLException e) {
+                e.printStackTrace();
                 //System.out.println("SQLException: " + wyjatek.getMessage());
                 //System.out.println("SQLState: " + wyjatek.getSQLState());
                 //System.out.println("VendorError: " + wyjatek.getErrorCode());
                 
-                answer += "SQLException: " + wyjatek.getMessage() + ", SQLState: " + wyjatek.getSQLState() + ", VendorError: " + wyjatek.getErrorCode();
+                answer += "SQLException: " + e.getMessage() + ", SQLState: " + e.getSQLState() + ", VendorError: " + e.getErrorCode();
             }
 
             
@@ -164,52 +188,4 @@ public class JDBC {
     }
         
         
-        
-        public static void sql() {
-               
-                String polaczenieURL = "jdbc:mysql://127.0.0.1/libray?user=root";
-                //Tworzymy proste zapytanie doa bazy danych
-                String query = "INSERT INTO `students` (`login`, `haslo`, `permissionId`, `index`) VALUES ('cmok', 'cmokaczek', '1', '1'); ";
-               
-                Connection conn = null;
-               
-                try {
- 
-                        //Ustawiamy dane dotycz¹ce pod³¹czenia
-                        conn = DriverManager.getConnection(polaczenieURL);
-                       
-                        //Ustawiamy sterownik MySQL
-                        Class.forName("com.mysql.jdbc.Driver");
-                       
-                        
-                        PreparedStatement ps = conn.prepareStatement(query);
-                        ps.executeUpdate();
-                        
-                        /*
-                        //Uruchamiamy zapytanie do bazy danych
-                        Statement stmt = conn.createStatement();
-                        ResultSet rs = stmt.executeQuery(query);
-       
-                        while (rs.next()) {
-                                wyswietlDaneZBazy(rs);
-                        }*/
-       
-                        conn.close();
-                }
-                //Wyrzuæ wyj¹tki jê¿eli nast¹pi¹ b³êdy z pod³¹czeniem do bazy danych lub blêdy zapytania o dane
-                catch(ClassNotFoundException wyjatek) {
-                        System.out.println("Problem ze sterownikiem");
-                }
- 
-                catch(SQLException wyjatek) {
-                        //e.printStackTrace();
-                        //System.out.println("Problem z logowaniem\nProsze sprawdzic:\n nazwê u¿ytkownika, has³o, nazwê bazy danych lub adres IP serwera");
-                        System.out.println("SQLException: " + wyjatek.getMessage());
-                    System.out.println("SQLState: " + wyjatek.getSQLState());
-                    System.out.println("VendorError: " + wyjatek.getErrorCode());
-                }
- 
-        }
-      
-               
 }
