@@ -1,6 +1,50 @@
 
 public class Tests {
 	
+	public static void main(String[] args) {
+		//System.out.println(testUpdateSQL());
+		//System.out.println(testQuerySQL());
+		//System.out.println(testLoginStudent());
+		//System.out.println(testSaveDataStudent());
+		//System.out.println(testSaveObject());
+		//System.out.println(testReadObject());
+		
+		
+    }
+	
+	public static String startEvryTests() {
+		System.out.println(testUpdateSQL());
+		System.out.println(testQuerySQL());
+		
+		
+		System.out.println(testLoginStudent());
+		System.out.println(testSaveDataStudent());
+		
+		
+		System.out.println(testSaveObject());
+		System.out.println(testReadObject());
+		
+		return null;
+	}
+	
+	
+	
+	
+	
+	
+	public static String testReadObject() {
+		Object object = new Object();
+		
+		String result = object.readObject(5);
+		
+		if("data was readed".equals(result)) {
+			return "zakonczony powodzeniem testReadObject";
+		}
+		
+		return "null testReadObject, Error: " + result;
+	}
+	
+	
 	public static String testUpdateSQL(){
 		//libray?user=root
 		JDBC baza = new JDBC("libray", "root");
@@ -82,7 +126,7 @@ public class Tests {
 		String answer = object.saveObject();
 		
 		if(answer.equals("Data are updated")) {
-			return "zakonczony powodzeniem testSaveDataStudent";
+			return "zakonczony powodzeniem testSaveObject";
 		}
 		
 		
@@ -91,27 +135,5 @@ public class Tests {
 		
 		
 	}
-	public static void main(String[] args) {
-		//System.out.println(testUpdateSQL());
-		//System.out.println(testQuerySQL());
-		//System.out.println(testLoginStudent());
-		//System.out.println(testSaveDataStudent());
-		System.out.println(testSaveObject());
-		
-		
-    }
-	
-	public static String startEvryTests() {
-		System.out.println(testUpdateSQL());
-		System.out.println(testQuerySQL());
-		System.out.println(testLoginStudent());
-		System.out.println(testSaveDataStudent());
-		System.out.println(testSaveObject());
-		
-		return null;
-	}
-	
-	
-	
 
 }
