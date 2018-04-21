@@ -1,5 +1,3 @@
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Object {
@@ -8,11 +6,11 @@ public class Object {
 	private int yearOfIssue;
 	private String author;
 	private String title;
+	private int objectId;
 	private JDBC base = new JDBC();
 	private Type type;
 	private boolean ability;
-	
-	
+
 	public Object() {
 		
 	}
@@ -37,6 +35,14 @@ public class Object {
 
 		String answer = getBase().sendUpdate(query);
 		
+		String queryToUpdateId = "SELECT objectId FROM " + getNameDataTable() + 
+		" WHERE type = '" + getType()  + "' AND tytul = '" + getTitle()  + "' AND yearOfIssue = " + getYearOfIssue()  + " AND ability = " + getAbility()  + 
+		" ORDER BY objectId DESC LIMIT 1;";
+		
+		
+		setObjectId(Integer.parseInt(getBase().sendQuery(queryToUpdateId)));
+		
+		
 		return answer;
 	}
 
@@ -50,11 +56,12 @@ public class Object {
 		
 
 		if(dataFromBase.size() > 0) {
-		setType(dataFromBase.get(0));
-		setAuthor(dataFromBase.get(1));
-		setTitle(dataFromBase.get(2));
-		setYearOfIssue(Integer.parseInt(dataFromBase.get(3)));
-		setAbility(Integer.parseInt(dataFromBase.get(4)));
+			setObjectId(idObject);
+			setType(dataFromBase.get(0));
+			setAuthor(dataFromBase.get(1));
+			setTitle(dataFromBase.get(2));
+			setYearOfIssue(Integer.parseInt(dataFromBase.get(3)));
+			setAbility(Integer.parseInt(dataFromBase.get(4)));
 		}
 		if(dataFromBase.size() < 1) {
 			return null;
@@ -64,6 +71,36 @@ public class Object {
 
 
 
+	public void rentTheObject() {
+		setAbility(false);
+		updateObject();
+	}
+
+	public void giveBackTheObject() {
+		setAbility(true);
+		updateObject();
+	}
+	
+	
+	public String updateObject() {
+		String query = "UPDATE " + getNameDataTable() + 
+				" SET type = '" + getType() + "', author = '" + getAuthor() + "', tytul = '" + getTitle() + "', yearOfIssue = " + getYearOfIssue() + ", ability = " + getAbility() +
+				" WHERE objectId = " + getObjectId();
+		 
+		String answer = getBase().sendUpdate(query);
+		
+		return answer;
+	}
+	
+	public int getObjectId() {
+		return objectId;
+	}
+
+
+
+	public void setObjectId(int objectId) {
+		this.objectId = objectId;
+	}
 
 	public String getNameDataTable() {
 		return nameDataTable;
