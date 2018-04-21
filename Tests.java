@@ -8,11 +8,11 @@ public class Tests {
 		//System.out.println(testSaveDataStudent());
 		//System.out.println(testSaveObject());
 		//System.out.println(testReadObject());
-		
+		System.out.println(testUpdateObject());
 		
     }
 	
-	public static String startEvryTests() {
+	public static String startAllTests() {
 		System.out.println(testUpdateSQL());
 		System.out.println(testQuerySQL());
 		
@@ -23,14 +23,42 @@ public class Tests {
 		
 		System.out.println(testSaveObject());
 		System.out.println(testReadObject());
+		System.out.println(testUpdateObject());
 		
 		return null;
 	}
+
 	
 	
 	
 	
-	
+	public static String testUpdateObject() {
+		Object object = new Object("aaaa", "aaa", 0000, Type.Indefinite);
+		object.setAbility(false);
+		object.saveObject();
+		
+		object.setAuthor("asdd");
+		
+		if(object.updateObject().equals("Data are updated")) {
+
+			if("data was readed".equals(object.readObject(object.getObjectId()))) {
+
+				String authorAfterUpdate = object.getAuthor();
+				
+				
+				if("asdd".equals(authorAfterUpdate)) {
+					return "zakonczony powodzeniem testUpdateObject";
+				}
+				return "null testUpdateObject";
+			}
+			else return "null testUpdateObject";
+		}
+
+		
+		return "null testUpdateObject";
+		
+	}
+
 	
 	public static String testReadObject() {
 		Object object = new Object();
@@ -44,16 +72,11 @@ public class Tests {
 		return "null testReadObject, Error: " + result;
 	}
 	
-	
 	public static String testUpdateSQL(){
-		//libray?user=root
 		JDBC baza = new JDBC("libray", "root");
 		
-		//baza.sendQuery();
 		if("Data are updated" == baza.sendUpdate("INSERT INTO `students` (`login`, `haslo`, `permissionId`, `index`) VALUES ('example', 'password', '12', '1000000'); ")) {
-			//if() {
 				return "zakonczony powodzeniem testDataSQL";
-			//}
 			
 		}
 		
