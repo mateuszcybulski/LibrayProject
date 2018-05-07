@@ -3,13 +3,15 @@ import java.util.ArrayList;
 public class Object {
 
 	private String nameDataTable = "object";
-	private int yearOfIssue;
+	
+	private int objectId;
+	private Type type;
 	private String author;
 	private String title;
-	private int objectId;
-	private JDBC base = new JDBC();
-	private Type type;
+	private int yearOfIssue;
 	private boolean ability;
+	
+	private JDBC base = new JDBC();
 
 	public Object() {
 		
@@ -38,7 +40,6 @@ public class Object {
 		String queryToUpdateId = "SELECT objectId FROM " + getNameDataTable() + 
 		" WHERE type = '" + getType()  + "' AND tytul = '" + getTitle()  + "' AND yearOfIssue = " + getYearOfIssue()  + " AND ability = " + getAbility()  + 
 		" ORDER BY objectId DESC LIMIT 1;";
-		
 		
 		setObjectId(Integer.parseInt(getBase().sendQuery(queryToUpdateId)));
 		
@@ -87,7 +88,7 @@ public class Object {
 				" SET type = '" + getType() + "', author = '" + getAuthor() + "', tytul = '" + getTitle() + "', yearOfIssue = " + getYearOfIssue() + ", ability = " + getAbility() +
 				" WHERE objectId = " + getObjectId();
 		 
-		String answer = getBase().sendUpdate(query);
+		String answer = getBase().sendInsert(query);
 		
 		return answer;
 	}
