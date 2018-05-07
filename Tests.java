@@ -2,18 +2,22 @@
 public class Tests {
 	
 	public static void main(String[] args) {
-		//System.out.println(testUpdateSQL());
+		//startAllTests();
+		//System.out.println(testInsertSQL());
 		//System.out.println(testQuerySQL());
 		//System.out.println(testLoginStudent());
 		//System.out.println(testSaveDataStudent());
+		//System.out.println(testWholeUpdateStudent());
+		
 		//System.out.println(testSaveObject());
 		//System.out.println(testReadObject());
-		System.out.println(testUpdateObject());
+		//System.out.println(testUpdateObject());
 		
+		System.out.println(testGiveBackAndBorrowObject());
     }
 	
 	public static String startAllTests() {
-		System.out.println(testUpdateSQL());
+		System.out.println(testInsertSQL());
 		System.out.println(testQuerySQL());
 		
 		
@@ -30,6 +34,23 @@ public class Tests {
 
 	
 	
+	public static String testGiveBackAndBorrowObject() {
+		LibraySystem lsystem = new LibraySystem();
+		String giveBack = lsystem.giveBackObject(1, 1);
+		
+		if("book is give back".equals(giveBack)) {
+			String boorowBack = lsystem.borrowObject(1, 1);
+			if("book is borrow".equals(boorowBack)) {
+				return "zakonczony powodzeniem testGiveBackAndBorrowObject";
+			}
+			else return "null testGiveBackAndBorrowObject: " + boorowBack ;
+			
+		}
+		/*else if("book is inside".equals(giveBack)) {
+			return "null testGiveBackAndBorrowObject: " + giveBack ;
+		}*/
+		else return "null testGiveBackAndBorrowObject " + giveBack ;
+	}
 	
 	
 	public static String testUpdateObject() {
@@ -72,10 +93,10 @@ public class Tests {
 		return "null testReadObject, Error: " + result;
 	}
 	
-	public static String testUpdateSQL(){
+	public static String testInsertSQL(){
 		JDBC baza = new JDBC("libray", "root");
 		
-		if("Data are updated" == baza.sendUpdate("INSERT INTO `students` (`login`, `haslo`, `permissionId`, `index`) VALUES ('example', 'password', '12', '1000000'); ")) {
+		if("Data are updated" == baza.sendInsert("INSERT INTO `students` (`login`, `haslo`, `permissionId`, `index`) VALUES ('example', 'password', '12', '1000000'); ")) {
 				return "zakonczony powodzeniem testDataSQL";
 			
 		}
@@ -142,6 +163,33 @@ public class Tests {
 		return "null testSaveDataStudent, Error: " + answer;
 	}
 	
+	public static String testWholeUpdateStudent() {
+		String answer = "";
+		Student studentToUpdate = new Student ("LstudentToUpdate", "HstudentToUpdate");
+		studentToUpdate.setPermissionId("1");
+		studentToUpdate.setIndex("99999");
+		studentToUpdate.setNumberBooks(0);
+		
+		String saveStudent = studentToUpdate.saveDataPerson();
+		
+		if("Data are updated".equals(saveStudent)) {
+			studentToUpdate.setNumberBooks(1);
+			studentToUpdate.wholeUpdatePerson();
+			
+			Student theSameStudent = new Student("LstudentToUpdate", "HstudentToUpdate");
+			String resultLoging = theSameStudent.loginPerson();
+	
+			if(theSameStudent.getNumberBooks() == studentToUpdate.getNumberBooks()) {
+				return "zakonczony powodzeniem testWholeUpdateStudent";
+			}
+			else answer = answer + " " + resultLoging;
+			
+		}
+		else answer = answer + saveStudent;
+		
+		return "null testWholeUpdateStudent, Error: " + answer;
+	}
+
 	public static String testSaveObject() {
 
 		Object object = new Object("Adam Mickiewicz", "Pan Tadeusz", 1990, Type.Book);
