@@ -30,10 +30,11 @@ public class Person {
 	}*/
 	
 	public boolean serchObject() {
-		
-		
-		
 		return false;
+	}
+	public String updatePerson() {
+
+		return null;
 	}
 	
 	public boolean checkAccessObject() {
