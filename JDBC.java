@@ -131,9 +131,9 @@ public class JDBC {
 
             catch(SQLException e) {
                 //e.printStackTrace();
-                System.out.println("SQLException: " + e.getMessage());
-                System.out.println("SQLState: " + e.getSQLState());
-                System.out.println("VendorError: " + e.getErrorCode());
+                //System.out.println("SQLException: " + e.getMessage());
+                //System.out.println("SQLState: " + e.getSQLState());
+                //System.out.println("VendorError: " + e.getErrorCode());
                 
                 answer += "SQLException: " + e.getMessage() + ", SQLState: " + e.getSQLState() + ", VendorError: " + e.getErrorCode();
             }
@@ -148,7 +148,7 @@ public class JDBC {
          * @param query
          * @return Data are updated OR Problem ze sterownikiem...
          */
-        public String sendUpdate(String query) {
+        public String sendInsert(String query) {
         	answer = "";
         	
            
@@ -187,5 +187,45 @@ public class JDBC {
         	return answer;
     }
         
+        
+        public String sendUpdate(String query) {
+        	answer = "";
+        	
+            
+            Connection conn = null;
+           
+            try {
+
+                    conn = DriverManager.getConnection(polaczenieURL);
+                   
+                    Class.forName("com.mysql.jdbc.Driver");
+                   
+                    Statement stmt = conn.createStatement();
+                    
+                    stmt.executeUpdate(query);
+                    
+                    conn.close();
+                    
+                	answer = "Data are updated";
+            }
+            catch(ClassNotFoundException wyjatek) {
+                    System.out.println("Problem ze sterownikiem");
+                    answer += "Problem ze sterownikiem ";
+                	
+            }
+
+            catch(SQLException e) {
+                e.printStackTrace();
+                //System.out.println("SQLException: " + wyjatek.getMessage());
+                //System.out.println("SQLState: " + wyjatek.getSQLState());
+                //System.out.println("VendorError: " + wyjatek.getErrorCode());
+                answer += "SQLException: " + e.getMessage() + ", SQLState: " + e.getSQLState() + ", VendorError: " + e.getErrorCode();
+            }
+
+            
+        	return answer;
+        	
+        	
+        }
         
 }
