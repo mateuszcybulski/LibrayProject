@@ -5,18 +5,20 @@ public class LibraySystem {
 	 ArrayList<Student> students = new ArrayList<Student>();
 	 ArrayList<Object> objects = new ArrayList<Object>();
 	 
-	
-	
-	
-	
 	public LibraySystem() {
-  /*private int objectId;
-	private Type type;
-	private String author;
-	private String title;
-	private int yearOfIssue;
-	private boolean ability;*/
 		
+		//read Objects to ArrayList objects
+		String queryObjects = "SELECT objectId FROM object";
+		
+		ArrayList<String> objectsData = new ArrayList<String>();
+		objectsData = base.getArrayList(queryObjects, 1);
+		
+		for(int i=0 ; i < objectsData.size(); i++) {
+			Object newObject = new Object();
+			newObject.readObject(Integer.parseInt(objectsData.get(i)));
+			
+			objects.add(newObject);
+		}
 		
 	}
 	
