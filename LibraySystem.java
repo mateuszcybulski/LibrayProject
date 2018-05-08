@@ -27,7 +27,8 @@ public class LibraySystem {
 	 * @return  "book is borrow" , "book is loan"
 	 */
 	public String borrowObject(int studentId, int objectId) {
-String query = "SELECT ability FROM object WHERE objectId = " + objectId + ";";
+		String ansewr = "Error";
+		String query = "SELECT ability FROM object WHERE objectId = " + objectId + ";";
 		
 		String ability = base.sendQuery(query);
 
@@ -38,11 +39,18 @@ String query = "SELECT ability FROM object WHERE objectId = " + objectId + ";";
 			String update = "UPDATE object SET ability = 0 WHERE objectId = "  + objectId + ";";
 			base.sendUpdate(update);
 			
-			return "book is borrow";
+			ansewr = "book is borrow";
 		}
 		else
-			return  "book is loan";
+			ansewr = "book is loan";
 		
+		String borrow = "INSERT INTO borrows (studentId, objectId) "
+					+ "VALUES (" + studentId + ", " + objectId + ")";
+		
+		if("Data are updated".equals(base.sendInsert(borrow)));
+		else ansewr = "error witch table borrow";
+		
+		return ansewr;
 	}
 	
 	/**
@@ -69,9 +77,6 @@ String query = "SELECT ability FROM object WHERE objectId = " + objectId + ";";
 			return  "book is inside";
 		
 	}
-	
-	
-	
 	
 	
 	
