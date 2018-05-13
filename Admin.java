@@ -2,10 +2,6 @@ import java.util.ArrayList;
 
 public class Admin extends Person{
 
-	//showObjevts
-	
-	//deleteStudent
-	//deleteObject
 
 	public Admin (String login, String password) {
 		super();
