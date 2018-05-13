@@ -12,8 +12,7 @@ public class LibraySystem {
 	public LibraySystem() {
 		
 		//read Objects to ArrayList objects
-		readObjects();
-		readBorrows();
+		refresh();
 	}
 	
 	public void refresh() {
@@ -52,6 +51,32 @@ public class LibraySystem {
 			
 			borrows.add(newObject);
 		}
+	}
+	
+	/**
+	 * metoda zmienia dostepnosc wybranego obiektu
+	 * @param obiectId
+	 * @return Succes, Dont exist the object, Error in object
+	 */
+	public String changeAbility(int obiectId) {
+		
+		for(Object obj : objects) {
+			if(obj.getObjectId() == obiectId) {
+				if(obj.getAbility() == 0) {
+					obj.setAbility(true);
+				}else if(obj.getAbility() == 1) {
+					obj.setAbility(false);
+				}else {
+					return "Error in object";
+				}
+				
+				obj.updateObject();
+				refresh();
+				return "Succes";
+			}
+		}
+		
+		return "Dont exist the object";
 	}
 	
 	
@@ -126,12 +151,12 @@ public class LibraySystem {
 		
 	}
 	
-	public ArrayList<Object> checkObjects(boolean loanObjects){
+	/*public ArrayList<Object> checkObjects(boolean loanObjects){
 		ArrayList<Object> answer = new ArrayList<Object>();
 		
 		
 		return objects;
-	}
+	}*/
 	
 	public 	ArrayList<String> getObjectsToString(){
 		ArrayList<String> objectss = new ArrayList<String>();
