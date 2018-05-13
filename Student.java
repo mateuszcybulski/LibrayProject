@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Student extends Person{
 	
 	private int numberBooks = 0;
-
+	private ArrayList<Object> myObjects = null; 
 	
 	
 
@@ -60,6 +60,11 @@ public class Student extends Person{
 		return answer;
 	}
 	
+	/**
+	 * Metoda wczytuje studenta o podanym studentId, zwraca kolejno:
+	 * -Access jesli taki student istnieje w bazie
+	 * -NotExist- jesli taki student nie istnieje w bazie
+	 */
 	public String readStudent(int studentId) {
 		String answer  = "";
 		String query  =  "SELECT  `permissionId`, `index`, `numberBooks`, `login`, `haslo` FROM `students` " +  "WHERE studentId = " + studentId ;
@@ -85,6 +90,34 @@ public class Student extends Person{
 		return answer;
 	}
 	
+	/**
+	 * metoda wczytuje obiekty ktore dany student wypozyczyl
+	 */
+	public void storyBorrows() {
+		String query = "SELECT objectId, author, tytul "
+				+ "FROM borrows "
+				+ "NATURAL JOIN students "
+				+ "NATURAL JOIN object "
+				+ "WHERE studentId = " + getPersonId() 
+				+ " AND ability = 0 "
+				+ "GROUP BY tytul, author";
+
+		ArrayList<String> myBorrowObjectId = null; 
+		myBorrowObjectId = getBase().getArrayList(query, 1);
+
+		myObjects = new ArrayList<Object>();
+		
+		for(String s : myBorrowObjectId) {
+			Object myBorrow = new Object();
+			myBorrow.readObject(Integer.parseInt(s));
+			myObjects.add(myBorrow);
+		}
+		
+	}
+	
+	public ArrayList<Object> getMyObjets(){
+		return myObjects;
+	}
 	
 	/**
 	 * Metoda zapisuje dane nowej osoby do tabeli:
