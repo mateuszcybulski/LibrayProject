@@ -136,6 +136,14 @@ public class Person {
 	public void setIndex(String index) {
 		this.index = index;
 	}
-	
+
+	public int getNumberBooks() {
+		return 0;
+	}
+
+
+
+	public void setNumberBooks(int numberBooks) {
+	}
 	
 }

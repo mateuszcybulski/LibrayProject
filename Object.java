@@ -29,7 +29,13 @@ public class Object {
 	}
 	
 	
-	
+
+	public String toString() {
+		String answer = ("Id: " + getObjectId() + ",Typ: " + getType() + ", \nAutor: " + getAuthor() + ", Tytul " + getTitle() + ", \nRok wydania: " + getYearOfIssue() +  ", Dostepnosc: " + getAbility(1) + "\n");
+				
+		return answer;
+	}
+
 	
 	public String saveObject() {
 		String query = "INSERT INTO `" + nameDataTable + "` (`type`, `author`, `tytul`, `yearOfIssue`, `ability`) " + 
@@ -53,7 +59,7 @@ public class Object {
 		String query = "SELECT type, author, tytul, yearOfIssue, ability FROM " + getNameDataTable() + " WHERE objectId = " + Integer.toString(idObject);
 		
 
-		dataFromBase = getBase().getRsQuery(query, 5);
+		dataFromBase = getBase().getArrayList(query, 5);
 		
 
 		if(dataFromBase.size() > 0) {
@@ -70,7 +76,11 @@ public class Object {
 		else return "data was readed";
 	}
 
-
+	public String showObject() {
+		String answer = objectId +  ", " + type + ", " + author +", " + title + ", " + yearOfIssue + ", " + ability;
+		
+				return answer;
+	}
 
 	public void rentTheObject() {
 		setAbility(false);
@@ -171,6 +181,12 @@ public class Object {
 		if(ability == false) {
 			return 0;
 		}else return 1;
+	}
+	
+	public String getAbility(int i) {
+		if(ability == false) {
+			return "wypozyczono";
+		}else return "dostepny";
 	}
 
 

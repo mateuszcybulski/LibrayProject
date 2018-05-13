@@ -91,7 +91,7 @@ public class JDBC {
          * @param query, howMuchTuple
          * @return SELECT- data is update to ArrayList
          */
-        public ArrayList<String> getRsQuery(String query, int howMuchTuple) {
+        public ArrayList<String> getArrayList(String query, int howMuchTuple) {
         	ArrayList<String> odp = new ArrayList<String>();
         	
         	
@@ -138,10 +138,8 @@ public class JDBC {
                 answer += "SQLException: " + e.getMessage() + ", SQLState: " + e.getSQLState() + ", VendorError: " + e.getErrorCode();
             }
 
-            
         	return odp;
         }
-        
         
         /**
          * 
