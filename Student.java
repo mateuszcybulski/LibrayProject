@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public class Student extends Person{
 	
@@ -13,6 +14,11 @@ public class Student extends Person{
 		setNameDataTable("students");
 		
 		
+	}
+	
+	public Student(int studentId) {
+		super();
+		readStudent(studentId);
 	}
 	
 	
@@ -34,7 +40,7 @@ public class Student extends Person{
 		if(getPassword().equals(basePassToThisLogin)) {
 			
 			query = "SELECT `studentId`, `permissionId`, `index`, `numberBooks` FROM `students` " +  "WHERE login = " + "'" + getLogin() + "'";
-			ArrayList<String> data = getBase().getRsQuery(query, 4);
+			ArrayList<String> data = getBase().getArrayList(query, 4);
 			
 			if(data.size() > 0) {
 				setPersonId(Integer.parseInt(data.get(0)));
@@ -44,10 +50,6 @@ public class Student extends Person{
 				setIsLogged(true);
 				answer = "Access";
 				
-				/*System.out.println(getPersonId());
-				System.out.println(getPermissionId());
-				System.out.println(getIndex());
-				System.out.println(getNumberBooks());*/
 			}
 			else answer = "NotExist";
 			
@@ -58,6 +60,30 @@ public class Student extends Person{
 		return answer;
 	}
 	
+	public String readStudent(int studentId) {
+		String answer  = "";
+		String query  =  "SELECT  `permissionId`, `index`, `numberBooks`, `login`, `haslo` FROM `students` " +  "WHERE studentId = " + studentId ;
+
+		ArrayList<String> data = getBase().getArrayList(query, 5);
+			
+		if(data.size() > 0) {
+			setPersonId(studentId);
+			setPermissionId(data.get(0));
+			setIndex(data.get(1));
+			setNumberBooks(Integer.parseInt(data.get(2)));
+			setLogin(data.get(3));
+			setPassword(data.get(4));
+			setIsLogged(true);
+			answer = "Access";
+			
+			
+				
+		}
+		else answer = "NotExist";
+			
+
+		return answer;
+	}
 	
 	
 	/**
@@ -110,6 +136,11 @@ public class Student extends Person{
 		
 	}
 	
+	public String toString() {
+		String answer = (" " + getPersonId() + " " + getLogin() + " " + getPassword() + " " + getPermissionId() + " " + getIndex() +  " " + getNumberBooks());
+				
+		return answer;
+	}
 
 	public int getNumberBooks() {
 		return numberBooks;
