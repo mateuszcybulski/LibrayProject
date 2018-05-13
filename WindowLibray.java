@@ -20,7 +20,6 @@ public class WindowLibray {
 	private Admin admin = null;
 	private Student student = null;
 	private boolean isAdmin;
-	private CheckLoanObjects checkObjects = null;
 	
 
 	
@@ -54,18 +53,38 @@ public class WindowLibray {
 		JMenu mnMenu = new JMenu("menu");
 		menuBar.add(mnMenu);
 		
-		JMenuItem mntmSprawdzObiekty = new JMenuItem("Sprawdz obiekty");
+		JMenuItem mntmSprawdzObiekty = new JMenuItem("Sprawdz wszystkie obiekty");
 		mnMenu.add(mntmSprawdzObiekty);
 		mntmSprawdzObiekty.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(isAdmin == true) {
-					checkObjects = new CheckLoanObjects(admin, true);
+					
+					CheckLoanObjects checkObjects = new CheckLoanObjects(admin, true);
 					checkObjects.frame.setVisible(true);
 					
 				}
 				else if(isAdmin == false) {
-					checkObjects = new CheckLoanObjects(student, false);
+					CheckLoanObjects checkObjects = new CheckLoanObjects(student, false);
 					checkObjects.frame.setVisible(true);
+				}
+				
+			}
+		});
+		
+		JMenuItem mntmSprawdzMojeObiekty = new JMenuItem("Sprawdz moje obiekty");
+		mnMenu.add(mntmSprawdzMojeObiekty);
+		mntmSprawdzMojeObiekty.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(isAdmin == true) {
+					JOptionPane.showMessageDialog(frame,
+						    "Administrator nie moze wypozyczac obiektow",
+						    "Niepoprawne dane",
+						    JOptionPane.ERROR_MESSAGE);
+				}
+				else if(isAdmin == false) {
+
+					CheckMyObjects windowMyObjects = new CheckMyObjects(student);
+					windowMyObjects.frame.setVisible(true);
 				}
 				
 			}

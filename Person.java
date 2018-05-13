@@ -140,7 +140,9 @@ public class Person {
 	public int getNumberBooks() {
 		return 0;
 	}
-
+	public String readStudent(int studentId) {
+		return"";
+	}
 
 
 	public void setNumberBooks(int numberBooks) {

@@ -91,7 +91,7 @@ public class Student extends Person{
 	}
 	
 	/**
-	 * metoda wczytuje obiekty ktore dany student wypozyczyl
+	 * metoda wczytuje obiekty ktore dany student ma wypozyczone
 	 */
 	public void storyBorrows() {
 		String query = "SELECT objectId, author, tytul "
@@ -116,7 +116,19 @@ public class Student extends Person{
 	}
 	
 	public ArrayList<Object> getMyObjets(){
+		storyBorrows();
 		return myObjects;
+	}
+	public ArrayList<String> getMyObjetsString(){
+		storyBorrows();
+		String answer = "";
+		
+		ArrayList<String> objectss = new ArrayList<String>();
+		for(Object obj : myObjects) {
+			objectss.add(obj.toString());
+		}
+		
+		return objectss;
 	}
 	
 	/**

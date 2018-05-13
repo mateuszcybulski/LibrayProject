@@ -20,11 +20,11 @@ public class Tests {
 		//System.out.println(testLoginAdmin());	
 		
 		//System.out.println(testReadBorrow());
+
+
+		Student student = new Student(4);
 		
-		/*Student std = new Student(2);
-		LibraySystem libray = new LibraySystem();
-		System.out.println(libray.giveBackObject(2, 64));
-		*/
+		student.storyBorrows();
 		
 		
 		

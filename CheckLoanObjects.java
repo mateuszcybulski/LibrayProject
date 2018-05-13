@@ -15,6 +15,8 @@ public class CheckLoanObjects {
 
 	JFrame frame;
 	private JTextField tfToBorrow;
+	private Student student = null;
+	private Admin admin = null;
 	private Person person = null;
 	private boolean isAdmin;
 	private JTextArea textArea = null;
@@ -23,27 +25,39 @@ public class CheckLoanObjects {
 	private int page=0;
 	private JLabel lblSnumberbooks;
 
-	
 	public CheckLoanObjects(Person person, boolean isAdmin) {
 		this.person = person;
+		
 		this.isAdmin = isAdmin;
 		initialize();
 	}
+	/*public CheckLoanObjects(Student student, boolean isAdmin) {
+		this.student = student;
+		
+		this.isAdmin = isAdmin;
+		initialize();
+	}
+	public CheckLoanObjects(Admin admin, boolean isAdmin) {
+		this.admin = admin;
+		
+		this.isAdmin = isAdmin;
+		initialize();
+	}*/
 
 	
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 902, 466);
+		frame.setBounds(100, 100, 948, 466);
 		frame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
 		
 		textArea = new JTextArea();
 		textArea.setFont(new Font("Monospaced", Font.PLAIN, 15));
-		textArea.setBounds(277, 13, 595, 370);
+		textArea.setBounds(323, 13, 595, 370);
 		frame.getContentPane().add(textArea);
 		
 		tfToBorrow = new JTextField();
-		tfToBorrow.setBounds(12, 38, 116, 22);
+		tfToBorrow.setBounds(12, 38, 167, 22);
 		frame.getContentPane().add(tfToBorrow);
 		tfToBorrow.setColumns(10);
 		
@@ -57,25 +71,57 @@ public class CheckLoanObjects {
 		frame.getContentPane().add(lblTwojeDane);
 		
 		JButton btnWypozycz = new JButton("Wypozycz");
+
+		if(isAdmin == true) {
+			btnWypozycz.setText("Zmien dostepnosc");
+			lblWypozyczObjectO.setText("Zmien dostepnosc obiektu o id:");
+		}
+		
+		
 		btnWypozycz.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				String answer = libray.borrowObject(person.getPersonId(), Integer.parseInt(tfToBorrow.getText()));
 				
-				//"book is borrow" , "book is loan"
-				if(answer.equals("book is borrow")) {
-
-					JOptionPane.showMessageDialog(frame,  "wypozyczono");
+				if(isAdmin == false) {
+					String answer = libray.borrowObject(person.getPersonId(), Integer.parseInt(tfToBorrow.getText()));
 					
-				}else if(answer.equals("book is loan")) {
+					if(answer.equals("book is borrow")) {
 
-					JOptionPane.showMessageDialog(frame,  "obiekt nie jest dostepny");
+						JOptionPane.showMessageDialog(frame,  "wypozyczono");
+						refresh();
+						
+					}else if(answer.equals("book is loan")) {
+
+						JOptionPane.showMessageDialog(frame,  "obiekt nie jest dostepny");
+					}
 				}
+				else if(isAdmin == true) {
+					String answer = libray.changeAbility(Integer.parseInt(tfToBorrow.getText()));
+
+
+					if(answer.equals("Succes")) {
+
+						JOptionPane.showMessageDialog(frame,  "zmieniono");
+						refresh();
+						
+					}else if(answer.equals("Dont exist the object")) {
+
+						JOptionPane.showMessageDialog(frame,  "nie ma takiego obiektu");
+					}else if(answer.equals("Error in object")) {
+
+						JOptionPane.showMessageDialog(frame,  "Error in object");
+					}
+					
+					
+					
+				}
+				
+				
 				
 				
 				
 			}
 		});
-		btnWypozycz.setBounds(12, 73, 116, 25);
+		btnWypozycz.setBounds(12, 73, 167, 25);
 		frame.getContentPane().add(btnWypozycz);
 		
 		JLabel lblLogin = new JLabel("Login:");
@@ -105,7 +151,7 @@ public class CheckLoanObjects {
 				showObjects();
 			}
 		});
-		btnNextPage.setBounds(151, 37, 114, 25);
+		btnNextPage.setBounds(197, 37, 114, 25);
 		frame.getContentPane().add(btnNextPage);
 		
 		JButton btnBeforePage = new JButton("Before page");
@@ -116,12 +162,12 @@ public class CheckLoanObjects {
 					JOptionPane.showMessageDialog(frame,  "nie ma wczesniej obiektow");
 				}
 				else {
-					page = page -1;
+					page = page - 1;
 					showObjects();
 				}
 			}
 		});
-		btnBeforePage.setBounds(151, 73, 114, 25);
+		btnBeforePage.setBounds(197, 73, 114, 25);
 		frame.getContentPane().add(btnBeforePage);
 		
 		
@@ -157,15 +203,10 @@ public class CheckLoanObjects {
 		JButton btnOdswierz = new JButton("Odswierz");
 		btnOdswierz.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				page=0;
-				
-				lblSnumberbooks.setText(Integer.toString(person.getNumberBooks()));
-				showObjects();
-				libray.refresh();
-				objects = libray.getObjectsToString();	
+					refresh();
 			}
 		});
-		btnOdswierz.setBounds(151, 135, 114, 25);
+		btnOdswierz.setBounds(197, 135, 114, 25);
 		frame.getContentPane().add(btnOdswierz);
 		
 
@@ -176,6 +217,17 @@ public class CheckLoanObjects {
 		JMenu mnMenu = new JMenu("menu");
 		menuBar.add(mnMenu);
 		
+		showObjects();
+	}
+	
+	private void refresh() {
+		//page=0;
+		
+		person.readStudent(person.getPersonId());
+		if(isAdmin == false)
+			lblSnumberbooks.setText(Integer.toString(person.getNumberBooks()));
+		libray.refresh();
+		objects = libray.getObjectsToString();	
 		showObjects();
 	}
 	
@@ -191,12 +243,11 @@ public class CheckLoanObjects {
 			for(int i=0 ; i<b; i++) {
 				textArea.append(objects.get(a+i));
 			}
-			page=-1;
 		}
 		else {
 			for(int i=0 ; i<5; i++) {
 				textArea.append(objects.get(a+i));
-			} 
+			}
 		}
 		
 	}

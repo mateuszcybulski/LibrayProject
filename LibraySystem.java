@@ -93,8 +93,6 @@ public class LibraySystem {
 		
 		String ability = base.sendQuery(query);
 
-		//System.out.println(query);
-		//System.out.println(ability);
 		
 		if(ability.equals("1")) {
 			String update = "UPDATE object SET ability = 0 WHERE objectId = "  + objectId + ";";
