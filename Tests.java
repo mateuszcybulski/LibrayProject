@@ -5,34 +5,97 @@ public class Tests {
 		//startAllTests();
 		//System.out.println(testInsertSQL());
 		//System.out.println(testQuerySQL());
+		
 		//System.out.println(testLoginStudent());
 		//System.out.println(testSaveDataStudent());
 		//System.out.println(testWholeUpdateStudent());
+		//System.out.println(testReadStudent());
 		
 		//System.out.println(testSaveObject());
 		//System.out.println(testReadObject());
 		//System.out.println(testUpdateObject());
 		
-		System.out.println(testGiveBackAndBorrowObject());
+		//System.out.println(testGiveBackAndBorrowObject());
+		
+		//System.out.println(testLoginAdmin());	
+		
+		//System.out.println(testReadBorrow());
+		
+		/*Student std = new Student(2);
+		LibraySystem libray = new LibraySystem();
+		System.out.println(libray.giveBackObject(2, 64));
+		*/
+		
+		
+		
     }
 	
 	public static String startAllTests() {
+		//tests JDBC
 		System.out.println(testInsertSQL());
 		System.out.println(testQuerySQL());
 		
-		
+		//tests Student
 		System.out.println(testLoginStudent());
 		System.out.println(testSaveDataStudent());
+		System.out.println(testReadStudent());
 		
-		
+		//tests object
 		System.out.println(testSaveObject());
 		System.out.println(testReadObject());
 		System.out.println(testUpdateObject());
 		
+		//tests LibraySystem
+		System.out.println(testGiveBackAndBorrowObject());
+		
+		//tests Admin
+		System.out.println(testLoginAdmin());
+		
+		System.out.println(testReadBorrow());
+		
 		return null;
 	}
-
 	
+	public static String testReadBorrow() {
+		Borrow borrow = new Borrow();
+		
+		String result = borrow.readBorrow(1);
+		
+		if("data was readed".equals(result)) {
+			if(borrow.getStudentId() == 1) {
+				if(borrow.getObjectId() == 10) {
+					return "zakonczony powodzeniem testReadBorrow";
+				}
+			}
+			
+		}
+		
+		return "null testReadBorrow, Error: " + result;
+	}
+
+	public static String testLoginAdmin() {
+		Admin admin = new Admin("adminl", "adminh");
+		String result = admin.loginPerson();
+		
+		if("Access".equals(result)) {
+			if("adminl".equals(admin.getLogin())){
+				if("adminh".equals(admin.getPassword())){
+					if(1 == admin.getPersonId()){
+						if("1".equals(admin.getPermissionId())){
+							return "zakonczony powodzeniem testLoginStudent";
+						}
+						else result = result + " " + admin.getIndex();
+					}
+					else result = result + " " + admin.getPermissionId();
+				}
+				else result = result + " " + admin.getPersonId();
+			}
+			else result = result + " " + admin.getPassword();
+		}
+		else result = result + " " + admin.getLogin();
+
+		return "null testLoginAdmin, Error: " + result;
+	}
 	
 	public static String testGiveBackAndBorrowObject() {
 		LibraySystem lsystem = new LibraySystem();
@@ -84,7 +147,7 @@ public class Tests {
 	public static String testReadObject() {
 		Object object = new Object();
 		
-		String result = object.readObject(5);
+		String result = object.readObject(1);
 		
 		if("data was readed".equals(result)) {
 			return "zakonczony powodzeniem testReadObject";
@@ -116,6 +179,24 @@ public class Tests {
 		
 		
 		return "null testQuerySQL";
+	}
+	
+	public static String testReadStudent() {
+		Student student = new Student(3);
+		
+		if( student.getLogin().equals("daniel") && 
+			student.getPassword().equals("macielecki") &&
+			student.getPermissionId().equals("2") && 
+			student.getIndex().equals("999999")) {
+			
+
+			return "zakonczony powodzeniem testReadStudent";
+			
+			
+			
+		}
+		
+		return "null testReadObject, Error: bledne dane ";
 	}
 	
 	public static String testLoginStudent() {
