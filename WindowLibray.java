@@ -3,6 +3,7 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
 import javax.swing.SwingConstants;
 import java.awt.Font;
 import javax.swing.JButton;
@@ -45,17 +46,9 @@ public class WindowLibray {
 		frame.setBounds(100, 100, 500, 500);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.getContentPane().setLayout(null);
-		frame.setResizable(false);
 		
-		JMenuBar menuBar = new JMenuBar();
-		frame.setJMenuBar(menuBar);
-		
-		JMenu mnMenu = new JMenu("menu");
-		menuBar.add(mnMenu);
-		
-		JMenuItem mntmSprawdzObiekty = new JMenuItem("Sprawdz wszystkie obiekty");
-		mnMenu.add(mntmSprawdzObiekty);
-		mntmSprawdzObiekty.addActionListener(new ActionListener() {
+		JButton btnSprawdzWszystkieObiekty = new JButton("Sprawdz wszystkie obiekty");
+		btnSprawdzWszystkieObiekty.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(isAdmin == true) {
 					
@@ -69,11 +62,13 @@ public class WindowLibray {
 				}
 				
 			}
+			
 		});
+		btnSprawdzWszystkieObiekty.setBounds(12, 13, 210, 87);
+		frame.getContentPane().add(btnSprawdzWszystkieObiekty);
 		
-		JMenuItem mntmSprawdzMojeObiekty = new JMenuItem("Sprawdz moje obiekty");
-		mnMenu.add(mntmSprawdzMojeObiekty);
-		mntmSprawdzMojeObiekty.addActionListener(new ActionListener() {
+		JButton btnSprawdzMojeObiekty = new JButton("Sprawdz moje obiekty");
+		btnSprawdzMojeObiekty.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(isAdmin == true) {
 					JOptionPane.showMessageDialog(frame,
@@ -87,8 +82,41 @@ public class WindowLibray {
 					windowMyObjects.frame.setVisible(true);
 				}
 				
+				
 			}
 		});
+		btnSprawdzMojeObiekty.setBounds(262, 13, 220, 87);
+		frame.getContentPane().add(btnSprawdzMojeObiekty);
+
+		JButton btnZobaczStudentowI = new JButton("Zobacz studentow i ich wypozyczenia");
+		
+
+		btnZobaczStudentowI.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(isAdmin == true) {
+					CheckStudents checkStudents = new CheckStudents();
+					checkStudents.frame.setVisible(true);
+					
+				}
+				else {
+
+					JOptionPane.showMessageDialog(frame,
+						    "Nie jestes administratorem",
+						    "Niepoprawne dane",
+						    JOptionPane.ERROR_MESSAGE);
+				}
+			}
+		});
+		btnZobaczStudentowI.setBounds(12, 113, 470, 117);
+		frame.getContentPane().add(btnZobaczStudentowI);
+		
+		
+		
+		
+		frame.setResizable(false);
+		
+		JMenuBar menuBar = new JMenuBar();
+		frame.setJMenuBar(menuBar);
 		
 
 		login.frame.setVisible(true);
