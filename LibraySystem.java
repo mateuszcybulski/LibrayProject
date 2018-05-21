@@ -2,7 +2,7 @@ import java.util.ArrayList;
 
 public class LibraySystem {
 	JDBC base = new JDBC();
-	 ArrayList<Student> students = new ArrayList<Student>();
+	 ArrayList<Student> students = null;
 	 ArrayList<Object> objects = null;
 	 ArrayList<Borrow> borrows = null;
 	 
@@ -11,23 +11,23 @@ public class LibraySystem {
 	 
 	public LibraySystem() {
 		
-		//read Objects to ArrayList objects
 		refresh();
 	}
 	
+
 	public void refresh() {
 
 		readObjects();
 		readBorrows();
+		readStudents();
 	}
 	
 	public void readObjects() {
 		String queryObjects = "SELECT objectId FROM object";
-		 objects = new ArrayList<Object>();
+		objects = new ArrayList<Object>();
 		
 		ArrayList<String> objectsData = new ArrayList<String>();
 		objectsData = base.getArrayList(queryObjects, 1);
-		objects = new ArrayList<Object>();
 		
 		for(int i=0 ; i < objectsData.size(); i++) {
 			Object newObject = new Object();
@@ -50,6 +50,19 @@ public class LibraySystem {
 			newObject.readBorrow(Integer.parseInt(borrowData.get(i)));
 			
 			borrows.add(newObject);
+		}
+	}
+	
+	public void readStudents() {
+		String queryObjects = "SELECT studentId FROM students";
+		students = new ArrayList<Student>();
+		
+		ArrayList<String> objectsData = new ArrayList<String>();
+		objectsData = base.getArrayList(queryObjects, 1);
+		
+		for(int i=0 ; i < objectsData.size(); i++) {
+			Student newStudent = new Student(Integer.parseInt(objectsData.get(i)));
+			students.add(newStudent);
 		}
 	}
 	
@@ -174,7 +187,14 @@ public class LibraySystem {
 		return studentss;
 	}
 	
-	
+
+	public ArrayList<Student> getStudents() {
+		return students;
+	}
+
+	public void setStudents(ArrayList<Student> students) {
+		this.students = students;
+	}
 	
 
 }
