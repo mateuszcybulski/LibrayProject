@@ -114,6 +114,16 @@ public class Student extends Person{
 		}
 		
 	}
+	public ArrayList<String> getStoryBorrows() {
+		ArrayList<String> myStory = null;
+		
+		for(Object obj :myObjects) {
+			myStory.add(obj.toString());
+		}
+		
+		
+		return myStory;
+	}
 	
 	public ArrayList<Object> getMyObjets(){
 		storyBorrows();
@@ -182,7 +192,7 @@ public class Student extends Person{
 	}
 	
 	public String toString() {
-		String answer = (" " + getPersonId() + " " + getLogin() + " " + getPassword() + " " + getPermissionId() + " " + getIndex() +  " " + getNumberBooks());
+		String answer = (getPersonId() + ", " + getLogin() + ", " + getPassword() + ", " + getPermissionId() + ", " + getIndex() +  ", " + getNumberBooks());
 				
 		return answer;
 	}
