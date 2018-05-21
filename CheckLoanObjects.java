@@ -53,16 +53,16 @@ public class CheckLoanObjects {
 		
 		textArea = new JTextArea();
 		textArea.setFont(new Font("Monospaced", Font.PLAIN, 15));
-		textArea.setBounds(323, 13, 595, 370);
+		textArea.setBounds(345, 13, 573, 370);
 		frame.getContentPane().add(textArea);
 		
 		tfToBorrow = new JTextField();
-		tfToBorrow.setBounds(12, 38, 167, 22);
+		tfToBorrow.setBounds(12, 50, 195, 22);
 		frame.getContentPane().add(tfToBorrow);
 		tfToBorrow.setColumns(10);
 		
 		JLabel lblWypozyczObjectO = new JLabel("Wypozycz object o nr id:");
-		lblWypozyczObjectO.setBounds(12, 15, 167, 22);
+		lblWypozyczObjectO.setBounds(12, 15, 195, 22);
 		frame.getContentPane().add(lblWypozyczObjectO);
 		
 		JLabel lblTwojeDane = new JLabel("Twoje Dane:");
@@ -121,7 +121,7 @@ public class CheckLoanObjects {
 				
 			}
 		});
-		btnWypozycz.setBounds(12, 73, 167, 25);
+		btnWypozycz.setBounds(12, 87, 195, 25);
 		frame.getContentPane().add(btnWypozycz);
 		
 		JLabel lblLogin = new JLabel("Login:");
@@ -151,7 +151,7 @@ public class CheckLoanObjects {
 				showObjects();
 			}
 		});
-		btnNextPage.setBounds(197, 37, 114, 25);
+		btnNextPage.setBounds(219, 37, 114, 25);
 		frame.getContentPane().add(btnNextPage);
 		
 		JButton btnBeforePage = new JButton("Before page");
@@ -167,7 +167,7 @@ public class CheckLoanObjects {
 				}
 			}
 		});
-		btnBeforePage.setBounds(197, 73, 114, 25);
+		btnBeforePage.setBounds(219, 73, 114, 25);
 		frame.getContentPane().add(btnBeforePage);
 		
 		
@@ -206,7 +206,7 @@ public class CheckLoanObjects {
 					refresh();
 			}
 		});
-		btnOdswierz.setBounds(197, 135, 114, 25);
+		btnOdswierz.setBounds(219, 138, 114, 25);
 		frame.getContentPane().add(btnOdswierz);
 		
 
