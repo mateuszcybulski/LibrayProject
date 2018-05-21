@@ -22,10 +22,6 @@ public class Tests {
 		//System.out.println(testReadBorrow());
 
 
-		Student student = new Student(4);
-		
-		student.storyBorrows();
-		
 		
 		
     }
